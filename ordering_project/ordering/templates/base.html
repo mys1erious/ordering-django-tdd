@@ -1,0 +1,32 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" type="text/css" href="{% static 'header.css' %}">
+
+    <title>Ordering app</title>
+</head>
+<body>
+<div class="header">
+    <a href="{% url 'home_page' %}">Home</a>
+    <a href="{% url 'users:list' %}">Users</a>
+
+    <div class="header-right first-right">
+        {% if not request.user.is_authenticated %}
+            <a href="{% url 'users:register' %}">Register</a>
+            <a href="{% url 'users:login' %}">Login</a>
+        {% else %}
+        <a href="{% url 'users:profile' user.id %}">Profile</a>
+            <a href="{% url 'users:logout' %}">Logout</a>
+        {% endif %}
+    </div>
+</div>
+
+<div>
+    {% block content %}{% endblock content %}
+</div>
+</body>
+</html>

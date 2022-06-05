@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div>
+    <form action="" method="POST">
+        {% csrf_token %}
+        <table>
+            {% for field in form %}
+                <tr class="fieldWrapper">
+                    {{ field.errors }}
+                    <th>{{ field.label_tag }}</th> <td>{{ field }} </td>
+                    {% if field.help_text %}
+                        <p class="help">{{ field.help_text|safe }}</p>
+                    {% endif %}
+                </tr>
+            {% endfor %}
+
+            {% if request.GET.next %}
+                <input type="hidden" name="next" value="{{ request.GET.next }}">
+            {% endif %}
+
+            <tr><td><input type="submit" value="Submit"></td></tr>
+        </table>
+    </form>
+</div>
+
+{% endblock content %}
