@@ -1,0 +1,11 @@
+# Basic without docker-compose
+docker build --tag subtlety/ordering-django-tdd .
+docker run --publish 8000:8000 subtlety/ordering-django-tdd
+
+
+# For docker-compose
+docker-compose build --> to build an Image
+docker-compose run --rm app [something to do here] --> to execute a code
+    (for example create new django project or setup db connection)
+docker-compose up --> to run an Image
+docker exec -it --> run a command inside 1 of ur containers

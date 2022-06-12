@@ -17,6 +17,11 @@ urlpatterns = [
         view=users_list_view,
         name='list'
     ),
+    path(
+        route='profile/<int:pk>/',
+        view=user_detail_view,
+        name='profile'
+    ),
 
     path(
         route='register/',
@@ -32,10 +37,5 @@ urlpatterns = [
         route='logout/',
         view=logout_view,
         name='logout'
-    ),
-    path(
-        route='profile/<int:pk>/',
-        view=user_detail_view,
-        name='profile'
-    ),
+    )
 ]

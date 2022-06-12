@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+
+  redis:
+    image: redis
+    container_name: redis
+
+  db:
+    image: postgres
+    container_name: postgres_db
+    volumes:
+      - ./data/db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=ordering_project
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+
+  django_app:
+    image: django_app:ordering_app
+    container_name: ordering_django_tdd
+    build: .
+    volumes:
+      - ./ordering_project:/django_project
+    ports:
+      - "8000:8000"
+    command: python manage.py runserver 0.0.0.0:8000
+    depends_on:
+      - db
+
+  celery:
+    image: python3:celery
+    container_name: celery
+    restart: always
+    build:
+      context: .
+    volumes:
+      - ./ordering_project:/django_project
+    command: celery -A config worker -l DEBUG
+    depends_on:
+      - db
+      - redis
+      - django_app

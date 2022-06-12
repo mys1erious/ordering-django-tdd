@@ -1,7 +1,9 @@
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
+from rest_framework import status
 
 from .forms import UserCreationForm, UserLoginForm
 from .models import User
@@ -22,7 +24,7 @@ def user_detail_view(request, pk):
             return render(request, 'users/user_detail.html', {'user': user})
         else:
             messages.error(request, 'Cant access another profiles info')
-            return render(request, 'base_error.html')
+            return redirect('users:list')
 
 
 def register_view(request):
@@ -33,6 +35,7 @@ def register_view(request):
             username = form.cleaned_data.get('username')
             messages.success(request, f'Account has been created for {username}')
             return redirect('users:login')
+
     else:
         form = UserCreationForm()
     return render(request, 'users/register.html', {'form': form})
