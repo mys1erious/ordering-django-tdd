@@ -1,39 +1,39 @@
-# from django.test import TestCase
-# from django.urls import reverse
-#
-# from users.models import User
-#
-#
-# class UserViewsTests(TestCase):
-#     def setUp(self) -> None:
-#         self.user = User.objects.create_user(
-#             username='test1',
-#             email='test1@gmail.com',
-#             password='test1'
-#         )
-#         self.user2 = User.objects.create_user(
-#             username='test2',
-#             email='test2@gmail.com',
-#             password='test2'
-#         )
-#         self.user_admin = User.objects.create_superuser(
-#             username='admin',
-#             email='admin@gmail.com',
-#             password='admin',
-#         )
-#
-#         self.users_list_url = reverse('users:list')
-#         self.user_profile_url = reverse('users:profile', kwargs={'pk': self.user.pk})
-#         self.another_user_profile_url = reverse('users:profile', kwargs={'pk': self.user2.pk})
-#         self.login_page_url = reverse('users:login')
-#         self.register_page_url = reverse('users:register')
-#
-#     def test_list(self):
-#         self.client.login(username='test1@gmail.com', password='test1')
-#         response = self.client.get(self.users_list_url)
-#
-#         self.assertContains(response, 'test1')
-#         self.assertContains(response, 'test2')
+from django.test import TestCase
+from django.urls import reverse
+
+from users.models import User
+
+
+class UserViewsTests(TestCase):
+    def setUp(self) -> None:
+        self.user = User.objects.create_user(
+            username='test1',
+            email='test1@gmail.com',
+            password='test1'
+        )
+        self.user2 = User.objects.create_user(
+            username='test2',
+            email='test2@gmail.com',
+            password='test2'
+        )
+        self.user_admin = User.objects.create_superuser(
+            username='admin',
+            email='admin@gmail.com',
+            password='admin',
+        )
+
+        self.users_list_url = reverse('users:list')
+        self.user_profile_url = reverse('users:profile', kwargs={'pk': self.user.pk})
+        self.another_user_profile_url = reverse('users:profile', kwargs={'pk': self.user2.pk})
+        self.login_page_url = reverse('users:login')
+        self.register_page_url = reverse('users:register')
+
+    def test_list(self):
+        self.client.login(username='test1@gmail.com', password='test1')
+        response = self.client.get(self.users_list_url)
+
+        self.assertContains(response, 'test1')
+        self.assertContains(response, 'test2')
 #
 #     def test_list_unauthorized_redirects_to_login_page(self):
 #         response = self.client.get(self.users_list_url)
