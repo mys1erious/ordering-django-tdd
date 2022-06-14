@@ -5,7 +5,8 @@ from .views import (
     register_view,
     login_view,
     logout_view,
-    user_detail_view
+    user_detail_view,
+    user_detail_delete_view
 )
 
 
@@ -21,6 +22,11 @@ urlpatterns = [
         route='profile/<int:pk>/',
         view=user_detail_view,
         name='profile'
+    ),
+    path(
+        route='profile/<int:pk>/delete',
+        view=user_detail_delete_view,
+        name='profile_delete'
     ),
 
     path(

@@ -1,6 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from rest_framework import status
@@ -19,11 +19,25 @@ def users_list_view(request):
 @login_required(login_url='users:login')
 def user_detail_view(request, pk):
     if request.method == 'GET':
+        data = {}
         if request.user.pk == pk or request.user.is_admin:
-            user = User.objects.get(pk=pk)
-            return render(request, 'users/user_detail.html', {'user': user})
+            user = get_object_or_404(User, pk=pk)
+            data['user'] = user
+            return render(request, 'users/user_detail.html', data)
         else:
             messages.error(request, 'Cant access another profiles info')
+            return redirect('users:list')
+
+
+@login_required(login_url='users:login')
+def user_detail_delete_view(request, pk):
+    if request.method == 'GET':
+        if request.user.pk == pk or request.user.is_admin:
+            user = get_object_or_404(User, pk=pk)
+            user.delete()
+            return redirect('users:list')
+        else:
+            messages.error(request, 'Cant delete another user')
             return redirect('users:list')
 
 

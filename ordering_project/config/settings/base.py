@@ -1,18 +1,11 @@
 import os
 import sys
 from pathlib import Path
-
-from django.core.exceptions import ImproperlyConfigured
+from ..utils import get_env_variable
 from dotenv import load_dotenv
 
 
 load_dotenv()
-def get_env_variable(var_name):
-    try:
-        return os.getenv(var_name)
-    except KeyError:
-        error_msg = f'Set the {var_name} environment variable'
-        raise ImproperlyConfigured(error_msg)
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
