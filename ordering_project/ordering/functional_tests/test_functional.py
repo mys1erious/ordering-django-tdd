@@ -27,7 +27,7 @@ class NewVisitorTest(SimpleTestCase):
     def tearDown(self) -> None:
         self.browser.quit()
 
-    def test_can_register_login_and_check_self_profile(self):
+    def test_can_register_login_check_self_profile_and_find_username_in_users_page(self):
         # Open homepage
         self.browser.get(self.base_url)
 
@@ -90,6 +90,18 @@ class NewVisitorTest(SimpleTestCase):
 
         self.assertEquals(username_text.text, f'username: {rnd_username}')
         self.assertEquals(email_text.text, f'email: {rnd_username}@gmail.com')
+
+        # Press Users button
+        users_button = self.browser.find_element(by=By.XPATH, value=f'//a[@href="{self.users_url}"]')
+        self.assertEqual(users_button.text, 'Users')
+        users_button.send_keys(Keys.ENTER)
+        time.sleep(1)
+
+        # Redirects to Users page
+        self.assertEqual(self.browser.current_url, self.base_url+self.users_url)
+
+        username_link = lambda: self.browser.find_element(by=By.XPATH, value=f'//a[contains(text(), "{rnd_username}")]')
+        self.assertEqual(username_link().text, rnd_username)
 
     def get_random_string(self, length):
         # choose from all lowercase letter
